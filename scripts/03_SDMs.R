@@ -5,11 +5,10 @@ library(terra)
 library(modEvA)
 library(ggnewscale)
 
-path_ana  <- "D:/R_P1/r_data"
-path_clim <- "D:/R_P1/raw_data/climate"
-path_gbif <- "D:/R_P1/raw_data/gbif"
-path_res  <- "D:/R_P1/results"
-path_pred_rasters <- file.path(path_res, "prediction_rasters")
+path_ana  <- "r_data"
+path_clim <- file.path("raw_data", "climate")
+path_gbif <- file.path("raw_data", "gbif")
+path_res  <- "results"
 
 dir.create(path_pred_rasters, recursive = TRUE, showWarnings = FALSE)
 

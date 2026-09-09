@@ -61,9 +61,6 @@ raw_data/climate/*
 raw_data/gbif/*
 !raw_data/gbif/.gitkeep
 
-raw_data/temperature/*
-!raw_data/temperature/.gitkeep
-
 raw_data/tereno/*
 !raw_data/tereno/.gitkeep
 

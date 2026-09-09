@@ -3,9 +3,9 @@ library(glmmTMB)
 library(patchwork)
 library(DHARMa)
 
-path_ana  <- "D:/R_P1/r_data"
-path_data <- "D:/R_P1/raw_data/tereno"
-path_res  <- "D:/R_P1/results"
+path_ana  <- "r_data"
+path_data <- file.path("raw_data", "tereno")
+path_res  <- "results"
 
 # Camera model data
 load(file.path(path_ana, "cam_day_tmax.RData"))

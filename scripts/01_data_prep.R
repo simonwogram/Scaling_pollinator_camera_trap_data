@@ -5,14 +5,19 @@ library(geodata)
 library(terra)
 library(data.table)
 
-path_cams <- "P:/R_P1/raw_data/camera/DataFigure8/Figure8CSV"
-path_temp <- "P:/R_P1/raw_data/temperature"
-path_ana  <- "P:/R_P1/r_data"
-path_clim <- "P:/R_P1/raw_data/climate"
-path_gbif <- "P:/R_P1/raw_data/gbif"
+path_cams <- file.path("raw_data", "camera", "DataFigure8", "Figure8CSV")
+path_temp <- file.path("raw_data", "temperature")
+path_ana  <- "r_data"
+path_clim <- file.path("raw_data", "climate")
+path_gbif <- file.path("raw_data", "gbif")
 
-recording_file <- "P:/R_P1/raw_data/camera/recording_dates.csv"
-gbif_file <- "P:/R_P1/raw_data/gbif/0001878-260126135527185/occurrence.txt"
+recording_file <- file.path("raw_data", "camera", "recording_dates.csv")
+gbif_file <- file.path(
+  "raw_data",
+  "gbif",
+  "0001878-260126135527185",
+  "occurrence.txt"
+)
 
 # Camera detections
 cam_orig <- list.files(path_cams, full.names = TRUE) |>

@@ -4,8 +4,8 @@ library(gt)
 library(DHARMa)
 library(performance)
 
-path_ana <- "D:/R_P1/r_data"
-path_res <- "D:/R_P1/results"
+path_ana <- "r_data"
+path_res <- "results"
 
 # Species metadata
 species_list <- c(
