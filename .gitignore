@@ -47,3 +47,56 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# =========================================================
+# Raw data
+# =========================================================
+
+raw_data/camera/*
+!raw_data/camera/.gitkeep
+
+raw_data/climate/*
+!raw_data/climate/.gitkeep
+
+raw_data/gbif/*
+!raw_data/gbif/.gitkeep
+
+raw_data/temperature/*
+!raw_data/temperature/.gitkeep
+
+raw_data/tereno/*
+!raw_data/tereno/.gitkeep
+
+
+# =========================================================
+# Intermediate R data
+# =========================================================
+
+r_data/*
+!r_data/.gitkeep
+
+
+# =========================================================
+# Results
+# =========================================================
+
+results/*
+!results/.gitkeep
+
+
+# =========================================================
+# R / RStudio
+# =========================================================
+
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+
+# =========================================================
+# Windows
+# =========================================================
+
+Thumbs.db
+Desktop.ini
