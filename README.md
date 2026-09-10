@@ -67,7 +67,7 @@ The file and directory names shown above should be retained because the current 
 
 ## Camera-trap detections
 
-The camera-trap detection data used in this study were provided by the authors of:
+The camera-trap detection data used in this workflow were provided by the authors of:
 
 > Bjerge, K., Alison, J., Dyrmann, M., Frigaard, C. E., Mann, H. M. R., & Høye, T. T. (2023). *Accurate detection and identification of insects from camera trap images with deep learning*. PLOS Sustainability and Transformation, 2(3), e0000051. https://doi.org/10.1371/journal.pstr.0000051
 
@@ -81,7 +81,7 @@ raw_data/camera/
 
 ---
 
-## Local temperature data for the camera study
+## Local hourly temperature data
 
 Hourly temperature data for the **Aarhus South (06074)** weather station were obtained from the Danish Meteorological Institute (DMI). The analysis uses observations from June to September 2019.
 
@@ -113,8 +113,6 @@ The files contain hourly temperature observations. The original DMI columns incl
 ---
 
 ## WorldClim BIO5
-
-No manual WorldClim download is required.
 
 `01_data_prep.R` uses the `geodata` package to download global WorldClim bioclimatic data at 0.5 arc-minute resolution and selects **BIO5**. The raster is then cropped to the study extent.
 
@@ -167,14 +165,6 @@ raw_data/gbif/0001878-260126135527185/occurrence.txt
 ---
 
 ## TERENO validation data
-
-`04_temporal.R` requires three prepared input files:
-
-```text
-raw_data/tereno/dwd_tmax.csv
-raw_data/tereno/tereno_filtered.csv
-raw_data/tereno/landuse.csv
-```
 
 ### `tereno_filtered.csv`
 
@@ -261,6 +251,10 @@ raw_data/tereno/dwd_tmax.csv
 
 ### `landuse.csv`
 
+The landuse data used in this workflow were provided by the authors of:
+
+>Slabbert, E., Knight, Tm., Wubet, T., Frenzel, M., Singavarapu, B., & Schweiger, O. (2024). Climate and land use primarily drive the diversity of multi-taxonomic communities in agroecosystems. *Basic and Applied Ecology*, 79, 65–73. https://doi.org/10.1016/j.baae.2024.06.003
+
 This file contains landscape-composition and habitat-diversity metrics for 95 pan-trap sampling locations in six TERENO agricultural sites in Saxony-Anhalt, Germany.
 
 The six TERENO sites are:
@@ -292,7 +286,7 @@ The file contains the following variables:
 - `EUNIS_div` – Shannon diversity of the original EUNIS level-3 habitat classes within the 200 m buffer
 - `EUNIS_rich` – number of original EUNIS level-3 habitat classes within the 200 m buffer
 
-With permission from the relevant data providers, the prepared dataset required to reproduce the analyses presented in this study is included directly in this repository at:
+With permission from the data providers, the prepared dataset required to reproduce the analyses presented in this study is included directly in this repository at:
 
 ```text
 raw_data/tereno/landuse.csv
@@ -458,9 +452,8 @@ It:
 
 - imports camera-detection CSV files;
 - applies the camera-detection confidence threshold;
-- removes class 1 from the camera analysis;
 - aggregates detections to hourly observations;
-- reconstructs camera sampling effort using `recording_dates.csv`;
+- reconstructs camera sampling effort;
 - joins camera observations to hourly temperature data;
 - aggregates the camera data to daily abundance and daily maximum temperature;
 - downloads and crops WorldClim BIO5;
@@ -468,100 +461,54 @@ It:
 - applies the GBIF filtering criteria; and
 - writes species-specific cleaned GBIF occurrence files.
 
-Main intermediate files generated in `r_data/`:
-
-```text
-cam_hr.RData
-temp_orig.RData
-cam_day_tmax.RData
-```
-
 ---
 
 ## `02_activity_models.R`
 
-This script fits species-specific negative-binomial temperature–activity models to the daily camera-trap data.
+This script fits species-specific negative-binomial temperature–activity models
 
 For each focal species, it:
 
-- accounts for daily camera effort;
 - fits a quadratic temperature-response model;
-- fits an intercept-only null model;
 - compares the temperature model against the null model;
 - checks model convergence;
-- simulates model residuals;
-- produces temperature-response predictions and confidence intervals; and
 - generates the temperature-response figure and model-comparison table.
-
-Outputs are written to:
-
-```text
-results/
-```
 
 ---
 
 ## `03_SDMs.R`
 
-This script projects the camera-derived temperature responses onto the WorldClim BIO5 raster.
+This script projects the camera-derived temperature–activity models onto the WorldClim BIO5 raster and validates the predictions against GBIF occurence data.
 
 It:
 
-- refits the species-specific temperature–activity models;
-- predicts the response across the BIO5 raster;
+- predicts the pollinator activity across the BIO5 raster;
 - aggregates the prediction rasters;
 - scales predictions for visualisation;
-- saves species-specific prediction rasters;
 - overlays cleaned GBIF occurrences;
 - calculates Boyce index values; and
 - creates the multi-species spatial prediction figure.
-
-Outputs, including GeoTIFF prediction rasters, maps, and Boyce-index tables, are written to:
-
-```text
-results/
-```
 
 ---
 
 ## `04_temporal.R`
 
-This script performs the independent temporal validation for:
-
-- *Bombus terrestris*
-- *Bombus lapidarius*
+This script generates temporal predictions based on the camera-derived temperature–activity models and validates the predictions against independent TERENO pan-trap data.
 
 It:
 
-- fits the camera-based temperature models for the two species;
-- predicts daily activity from DWD daily maximum temperature;
+- fits the camera-based temperature models for the two species *Bombus terrestris* and *Bombus lapidarius*;
+- predicts daily activity with DWD daily maximum temperature;
 - aggregates predictions across TERENO pan-trap sampling intervals;
 - aggregates observations and predictions to annual values;
 - fits negative-binomial validation models;
 - evaluates annual temporal correspondence;
-- calculates site-level temporal skill;
-- compares temporal skill with landscape variables;
-- clusters correlated habitat variables;
-- fits the habitat-effect model; and
-- generates the validation and habitat-effect figures and tables.
-
-Additional intermediate files are written to `r_data/`, and final outputs are written to `results/`.
+- fits a habitat-effect model; and
+- generates habitat-effect figures and tables.
 
 ---
 
 # 6. Main outputs
-
-The workflow generates two classes of files.
-
-## Intermediate analysis data
-
-Stored in:
-
-```text
-r_data/
-```
-
-These files are generated by the scripts and therefore do not need to be downloaded separately.
 
 ## Analysis results
 
@@ -581,38 +528,3 @@ These include:
 - temporal-validation figures;
 - temporal-skill tables; and
 - habitat-effect outputs.
-
-The `results/` directory is intentionally excluded from Git version control because these files can be regenerated by running the workflow.
-
----
-
-# 7. Data provenance summary
-
-| Input | Original source | Required local location | Obtained by |
-|---|---|---|---|
-| Camera detections | Bjerge et al. (2023) | `raw_data/camera/DataFigure8/Figure8CSV/` | Included in repository |
-| Camera recording dates | Study-specific input | `raw_data/camera/recording_dates.csv` | Included in repository |
-| Aarhus temperature | DMI | `raw_data/temperature/` | Included in repository |
-| WorldClim BIO5 | WorldClim via `geodata` | `raw_data/climate/` | Automatically downloaded by `01_data_prep.R` |
-| GBIF occurrences | GBIF DOI 10.15468/dl.zqrz3u | `raw_data/gbif/0001878-260126135527185/occurrence.txt` | GBIF download |
-| TERENO pan traps | TERENO / PANGAEA | `raw_data/tereno/tereno_filtered.csv` | Included in repository |
-| Daily Tmax | DWD CDC | `raw_data/tereno/dwd_tmax.csv` | Included in repository |
-| Landscape metrics | Slabbert et al. (2024) | `raw_data/tereno/landuse.csv` | Included in repository |
-
----
-
-# 9. License
-
-See the [`LICENSE`](LICENSE) file for the licence applying to the code in this repository.
-
-Licences and reuse conditions for external datasets remain those specified by the respective data providers.
-
----
-
-# 10. Citation
-
-If you use this code, please cite the associated publication and the corresponding archived release of the repository.
-
-**Associated article:** `<not published yet>`
-
-Please also cite the original data sources listed above when using the corresponding datasets.
