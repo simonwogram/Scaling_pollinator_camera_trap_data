@@ -10,6 +10,8 @@ path_clim <- file.path("raw_data", "climate")
 path_gbif <- file.path("raw_data", "gbif")
 path_res  <- "results"
 
+path_pred_rasters <- file.path(path_res, "prediction_rasters")
+
 dir.create(path_pred_rasters, recursive = TRUE, showWarnings = FALSE)
 
 # Species metadata
