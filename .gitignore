@@ -52,18 +52,11 @@ rsconnect/
 # Raw data
 # =========================================================
 
-raw_data/camera/*
-!raw_data/camera/.gitkeep
-
 raw_data/climate/*
 !raw_data/climate/.gitkeep
 
 raw_data/gbif/*
 !raw_data/gbif/.gitkeep
-
-raw_data/tereno/*
-!raw_data/tereno/.gitkeep
-
 
 # =========================================================
 # Intermediate R data
