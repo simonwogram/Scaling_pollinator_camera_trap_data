@@ -347,11 +347,13 @@ ggsave(
 )
 
 ggsave(
-  file.path(path_res, "Figure_1.pdf"),
+  file.path(path_res, "Figure_1.tiff"),
   p_map_main,
   width = 150,
   height = 300,
   units = "mm",
-  device = cairo_pdf,
+  dpi = 1000,
+  device = "tiff",
+  compression = "lzw",
   bg = "white"
 )
