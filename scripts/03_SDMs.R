@@ -345,3 +345,13 @@ ggsave(
   dpi = 600,
   bg = "white"
 )
+
+ggsave(
+  file.path(path_res, "Figure_1.pdf"),
+  p_map_main,
+  width = 150,
+  height = 300,
+  units = "mm",
+  device = cairo_pdf,
+  bg = "white"
+)
